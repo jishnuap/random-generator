@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Generator</title>
+  <meta name="description" content="A tiny toolkit of random generators: numbers, dice, coin flips, colors and list picks.">
+  <style>
+    :root {
+      --bg: #f6f5f1;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --muted: #6b6b70;
+      --border: #e3e1da;
+      --accent: #3b5bdb;
+      --accent-text: #ffffff;
+      --result-bg: #f0f2fb;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141416;
+        --surface: #1e1e22;
+        --text: #ececef;
+        --muted: #9a9aa3;
+        --border: #2e2e34;
+        --accent: #7b93f5;
+        --accent-text: #0f1020;
+        --result-bg: #23263a;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.5;
+    }
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 16px 64px;
+    }
+    header { margin-bottom: 32px; }
+    h1 { font-size: 2rem; margin: 0 0 4px; letter-spacing: -0.02em; }
+    header p { margin: 0; color: var(--muted); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card h2 { font-size: 1rem; margin: 0; }
+    .row { display: flex; gap: 8px; }
+    label { font-size: 0.8rem; color: var(--muted); display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    input, textarea {
+      font: inherit;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      width: 100%;
+    }
+    textarea { resize: vertical; min-height: 72px; }
+    button {
+      font: inherit;
+      font-weight: 600;
+      background: var(--accent);
+      color: var(--accent-text);
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+    button:hover { filter: brightness(1.08); }
+    button:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .result {
+      background: var(--result-bg);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+      word-break: break-word;
+    }
+    .swatch { width: 28px; height: 28px; border-radius: 6px; margin-right: 10px; border: 1px solid var(--border); }
+    footer { margin-top: 40px; color: var(--muted); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Random Generator</h1>
+      <p>Numbers, dice, coins, colors and picks. All generated in your browser.</p>
+    </header>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Number</h2>
+        <div class="row">
+          <label>Min <input id="num-min" type="number" value="1"></label>
+          <label>Max <input id="num-max" type="number" value="100"></label>
+        </div>
+        <div class="result" id="num-result" aria-live="polite">–</div>
+        <button id="num-btn">Generate</button>
+      </div>
+
+      <div class="card">
+        <h2>Dice</h2>
+        <div class="row">
+          <label>Dice <input id="dice-count" type="number" min="1" max="20" value="2"></label>
+          <label>Sides <input id="dice-sides" type="number" min="2" max="1000" value="6"></label>
+        </div>
+        <div class="result" id="dice-result" aria-live="polite">–</div>
+        <button id="dice-btn">Roll</button>
+      </div>
+
+      <div class="card">
+        <h2>Coin flip</h2>
+        <div class="result" id="coin-result" aria-live="polite">–</div>
+        <button id="coin-btn">Flip</button>
+      </div>
+
+      <div class="card">
+        <h2>Color</h2>
+        <div class="result" id="color-result" aria-live="polite">–</div>
+        <button id="color-btn">Generate</button>
+      </div>
+
+      <div class="card">
+        <h2>Pick from list</h2>
+        <label>One item per line
+          <textarea id="list-input">Pizza
+Tacos
+Sushi
+Burgers</textarea>
+        </label>
+        <div class="result" id="list-result" aria-live="polite">–</div>
+        <button id="list-btn">Pick</button>
+      </div>
+    </section>
+
+    <footer>Uses <code>crypto.getRandomValues</code> for randomness.</footer>
+  </main>
+
+  <script>
+    // Unbiased integer in [min, max] via rejection sampling.
+    function randInt(min, max) {
+      const range = max - min + 1;
+      const limit = Math.floor(0x100000000 / range) * range;
+      const buf = new Uint32Array(1);
+      do { crypto.getRandomValues(buf); } while (buf[0] >= limit);
+      return min + (buf[0] % range);
+    }
+
+    const $ = (id) => document.getElementById(id);
+
+    $('num-btn').addEventListener('click', () => {
+      let min = Math.ceil(Number($('num-min').value));
+      let max = Math.floor(Number($('num-max').value));
+      if (!Number.isFinite(min) || !Number.isFinite(max)) {
+        $('num-result').textContent = 'Enter numbers';
+        return;
+      }
+      if (min > max) [min, max] = [max, min];
+      $('num-result').textContent = randInt(min, max);
+    });
+
+    $('dice-btn').addEventListener('click', () => {
+      const count = Math.min(20, Math.max(1, Math.floor(Number($('dice-count').value)) || 1));
+      const sides = Math.min(1000, Math.max(2, Math.floor(Number($('dice-sides').value)) || 6));
+      const rolls = Array.from({ length: count }, () => randInt(1, sides));
+      const total = rolls.reduce((a, b) => a + b, 0);
+      $('dice-result').textContent = count > 1 ? `${rolls.join(' + ')} = ${total}` : total;
+    });
+
+    $('coin-btn').addEventListener('click', () => {
+      $('coin-result').textContent = randInt(0, 1) ? 'Heads' : 'Tails';
+    });
+
+    $('color-btn').addEventListener('click', () => {
+      const hex = '#' + randInt(0, 0xffffff).toString(16).padStart(6, '0').toUpperCase();
+      const out = $('color-result');
+      out.innerHTML = '';
+      const swatch = document.createElement('span');
+      swatch.className = 'swatch';
+      swatch.style.background = hex;
+      out.append(swatch, hex);
+    });
+
+    $('list-btn').addEventListener('click', () => {
+      const items = $('list-input').value.split('\n').map((s) => s.trim()).filter(Boolean);
+      $('list-result').textContent = items.length ? items[randInt(0, items.length - 1)] : 'Add some items';
+    });
+  </script>
+</body>
+</html>
