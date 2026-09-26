@@ -39,7 +39,7 @@
     /* Header */
     .top { background: var(--pine); color: var(--on-dark); padding: 18px 0 14px; }
     .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-l); }
-    .top h1 { font: 400 28px/1.15 var(--disp); margin: 4px 0 14px; }
+    .top h1 { font: 400 28px/1.15 var(--disp); margin: 8px 0 14px; }
     .top h1 .mal { font: 700 18px var(--mal); color: var(--on-dark-2); margin-left: 6px; }
     .seg { display: flex; background: var(--pine-deep); border-radius: 12px; padding: 4px; gap: 4px; }
     .seg button {
@@ -227,6 +227,13 @@
     .toast.show { opacity: 1; }
     footer.foot { color: var(--muted); font-size: 13px; padding: 12px 0 0; }
 
+
+    .toprow { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .appnav { display: flex; background: var(--pine-deep); border-radius: 10px; padding: 3px; gap: 3px; }
+    .appnav a { min-height: 36px; padding: 0 14px; border-radius: 8px; display: inline-flex; align-items: center;
+                font-size: 14px; font-weight: 700; color: var(--on-dark-2); text-decoration: none; }
+    .appnav a[aria-current="page"] { background: var(--gold-l); color: var(--pine-deep); }
+    .appnav a:not([aria-current]):hover { color: var(--on-dark); background: var(--pine-mid); }
     #print { display: none; }
 
     @media print {
@@ -253,7 +260,7 @@
 <body>
   <header class="top">
     <div class="wrap">
-      <p class="eyebrow">Onaaravam ’26 · Organiser</p>
+      <div class="toprow"><p class="eyebrow">Onaaravam ’26 · Organiser</p><nav class="appnav" aria-label="Organiser tools"><a href="fixtures.html" aria-current="page">Fixtures</a><a href="weigh-in.html">Weigh-in</a></nav></div>
       <h1>Vadamvali fixtures <span class="mal" lang="ml">വടംവലി</span></h1>
       <div class="seg" id="cats" role="group" aria-label="Category"></div>
     </div>
@@ -274,11 +281,11 @@
     const letter = (i) => String.fromCharCode(65 + i);
     const need = (bo) => Math.floor(bo / 2) + 1;
 
-    function newCat(towers = 8) {
+    function newCat(towers = 6) {
       return {
         towers, teams: Array.from({ length: towers }, (_, i) => 'T' + (i + 1)),
         mode: 'count', groupCount: 2, groupSize: 4,
-        bestOf: 3, koBestOf: 3, points: 2, ko: 'semis',
+        bestOf: 3, koBestOf: 3, points: 2, ko: 'final',
         seed: null, manual: false, groups: null, matches: [], byes: [], results: {}, repulls: {},
       };
     }
@@ -489,8 +496,8 @@
         return { label, team: s && s.winner ? (which === 'w' ? s.winner : s.loser) : null };
       };
       if (c.ko === 'final') {
-        if (k === 2) add('F', 'Final', slot(0, 1), slot(1, 1));
-        else add('F', 'Final', slot(0, 1), slot(0, 2));
+        if (k === 2) add('F', 'Grand Final', slot(0, 1), slot(1, 1));
+        else add('F', 'Grand Final', slot(0, 1), slot(0, 2));
       } else {
         if (k === 1 && c.groups[0].length < 4) return { matches: [], err: 'Semi-finals need at least four teams in the group.' };
         if (k === 2) { add('SF1', 'Semi-final 1', slot(0, 1), slot(1, 2)); add('SF2', 'Semi-final 2', slot(1, 1), slot(0, 2)); }
@@ -543,7 +550,9 @@
         if (!Array.isArray(c.teams) || !c.teams.every((t) => typeof t === 'string')) throw new Error('Team list for ' + CATS[k] + ' is not valid.');
         if (c.groups != null && !(Array.isArray(c.groups) && c.groups.every((g) => Array.isArray(g)))) throw new Error('Groups for ' + CATS[k] + ' are not valid.');
         if (c.matches != null && !Array.isArray(c.matches)) throw new Error('Matches for ' + CATS[k] + ' are not valid.');
-        out.cats[k] = Object.assign(newCat(), c, { results: c.results || {}, repulls: c.repulls || {}, matches: c.matches || [], byes: c.byes || [] });
+        // Untouched old 8-tower defaults move to the 6-tower default.
+        if (!c.groups && c.teams.join() === 'T1,T2,T3,T4,T5,T6,T7,T8') { c.teams = newCat().teams; c.towers = 6; }
+        out.cats[k] = Object.assign(newCat(), c, { results: c.results || {}, repulls: c.repulls || {}, matches: c.matches || [], byes: c.byes || [], ko: 'final' });
       });
       if (CATS[o.cat]) out.cat = o.cat;
       if (VIEWS.some((v) => v[0] === o.view)) out.view = o.view;
@@ -771,12 +780,7 @@
       html += `<p class="legend">P played · W won · L lost · PW / PL pulls won / lost · ± pull difference · Green rows go through${c.groups.some((_, gi) => Object.keys(c.repulls).some((k) => k.startsWith(gi + '|'))) ? ' · R placed by re-pull' : ''}.</p>`;
 
       html += `<h3 class="ko-h">Knockout</h3><div class="card">
-        <label class="field">Format
-          <select data-change="ko" ${koStarted(c) ? 'disabled' : ''}>
-            <option value="semis" ${c.ko === 'semis' ? 'selected' : ''}>Semis, 3rd place &amp; final</option>
-            <option value="final" ${c.ko === 'final' ? 'selected' : ''}>${c.groups.length === 2 ? 'Group winners → final' : 'Top 2 → final'}</option>
-          </select></label>
-        <p class="small muted" style="margin-top:8px">${c.ko === 'final' ? (c.groups.length === 2 ? 'A1 v B1 in the Grand Final. No semi-finals.' : '1st v 2nd in the final.') : (c.groups.length === 2 ? 'Semi-finals A1 v B2 and B1 v A2, then 3rd place and final.' : 'Semi-finals 1st v 4th and 2nd v 3rd, then 3rd place and final.')}</p>
+        <p>${c.groups.length === 2 ? 'The two group champions, A1 and B1, meet directly in the Grand Final. No semi-finals.' : 'With one group, 1st and 2nd meet in the Grand Final.'}</p>
         ${ko.err ? `<p class="err" style="margin-top:10px">${esc(ko.err)}</p>` : ''}
       </div>`;
       if (ko.matches.length) {
@@ -818,7 +822,8 @@
           <p class="small muted" style="margin-bottom:12px">Reset ${CATS[S.cat]} clears its draw and results but keeps the team names.</p>
           <div class="stack">
             <button class="btn danger block" data-act="reset" ${c.groups ? '' : 'disabled'}>Reset ${CATS[S.cat]}</button>
-            <button class="btn danger block" data-act="resetAll">Reset everything</button>
+            <button class="btn danger block" data-act="resetAll">Reset all fixtures</button>
+            <button class="btn danger block" data-act="clearAllData">Clear all data (fixtures and weigh-in)</button>
           </div>
         </div>`;
     }
@@ -983,8 +988,13 @@
         if (!confirm(`Reset ${CATS[S.cat]}? This deletes its draw, fixtures and every result. Team names are kept.`)) return;
         clearDraw(cat()); save(); render(); toast(CATS[S.cat] + ' reset.');
       },
+      clearAllData() {
+        if (!confirm('Clear ALL data on this phone?\n\nThis deletes the fixtures (every category, draw and result) AND the weigh-in (every team, weight and clearance). It cannot be undone — export first if you need a copy.')) return;
+        try { ['onaaravam26-vadamvali-fixtures', 'onaaravam26-vadamvali-weighin'].forEach((k) => localStorage.removeItem(k)); } catch (e) { /* ignore */ }
+        location.reload();
+      },
       resetAll() {
-        if (!confirm('Reset everything? All categories, teams, draws and results on this phone will be deleted.')) return;
+        if (!confirm('Reset all fixtures? Every category’s draw and results on this phone will be deleted. The weigh-in is not touched.')) return;
         S = fresh(); S.view = 'data'; save(); render(); toast('Everything reset.');
       },
     };

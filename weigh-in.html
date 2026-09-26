@@ -33,7 +33,7 @@
 
     .top { background: var(--pine); color: var(--on-dark); padding: 18px 0 16px; }
     .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-l); }
-    .top h1 { font: 400 28px/1.15 var(--disp); margin-top: 4px; }
+    .top h1 { font: 400 28px/1.15 var(--disp); margin-top: 8px; }
     .top h1 .mal { font: 700 18px var(--mal); color: var(--on-dark-2); margin-left: 6px; }
 
     .tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; background: var(--card);
@@ -173,6 +173,13 @@
     .toast.show { opacity: 1; }
     .toast.bad { background: var(--over); color: #fff; }
     footer.foot { color: var(--muted); font-size: 13px; padding: 12px 0 0; }
+
+    .toprow { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .appnav { display: flex; background: var(--pine-deep); border-radius: 10px; padding: 3px; gap: 3px; }
+    .appnav a { min-height: 36px; padding: 0 14px; border-radius: 8px; display: inline-flex; align-items: center;
+                font-size: 14px; font-weight: 700; color: var(--on-dark-2); text-decoration: none; }
+    .appnav a[aria-current="page"] { background: var(--gold-l); color: var(--pine-deep); }
+    .appnav a:not([aria-current]):hover { color: var(--on-dark); background: var(--pine-mid); }
     #print { display: none; }
 
     @media print {
@@ -202,7 +209,7 @@
 </head>
 <body>
   <header class="top"><div class="wrap">
-    <p class="eyebrow">Onaaravam ’26 · Organiser</p>
+    <div class="toprow"><p class="eyebrow">Onaaravam ’26 · Organiser</p><nav class="appnav" aria-label="Organiser tools"><a href="fixtures.html">Fixtures</a><a href="weigh-in.html" aria-current="page">Weigh-in</a></nav></div>
     <h1>Vadamvali weigh-in <span class="mal" lang="ml">വടംവലി</span></h1>
   </div></header>
   <nav class="tabs" id="tabs" aria-label="Sections"></nav>
@@ -230,7 +237,7 @@
     }
     function newState() {
       const s = defaults();
-      const teams = ['men', 'women'].flatMap((c) => Array.from({ length: 8 }, (_, i) => newTeam('T' + (i + 1), c, s)));
+      const teams = Object.keys(CATS).flatMap((c) => Array.from({ length: 6 }, (_, i) => newTeam('T' + (i + 1), c, s)));
       return { v: 1, settings: s, teams, view: 'teams', open: null, filter: 'all', sort: { k: 'name', dir: 1 }, official: '' };
     }
 
@@ -397,7 +404,19 @@
       return Object.assign(newState(), { settings, teams, view: VIEWS.some((v) => v[0] === o.view) ? o.view : 'teams', open: o.open || null,
         filter: o.filter || 'all', sort: o.sort || { k: 'name', dir: 1 }, official: o.official || '' });
     }
-    function load() { try { const r = localStorage.getItem(KEY); if (r) return normalise(JSON.parse(r)); } catch (e) { /* fresh */ } return newState(); }
+    function load() {
+      try {
+        const r = localStorage.getItem(KEY);
+        if (r) {
+          const st = normalise(JSON.parse(r));
+          // Untouched old default (T1–T8, Men and Women, nothing entered) moves to the 6-tower default.
+          const old = ['men', 'women'].flatMap((c) => Array.from({ length: 8 }, (_, i) => c + ':T' + (i + 1))).join();
+          if (st.teams.map((t) => t.cat + ':' + t.name).join() === old && !st.teams.some((t) => t.captain || t.members.some(active))) st.teams = newState().teams;
+          return st;
+        }
+      } catch (e) { /* fresh */ }
+      return newState();
+    }
     function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('Could not save on this phone — export a copy.', true); } }
 
     const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
@@ -474,7 +493,10 @@
         </button>`;
       }).join('')}</div>`;
       if (!list.length) html += '<p class="muted">No teams in this category.</p>';
-      html += `<details class="card" style="margin-top:14px"><summary>Add a team</summary>
+      const cats = S.filter === 'all' ? Object.keys(CATS) : [S.filter];
+      html += `<div class="row" style="margin-top:14px">${cats.map((k) => `<button class="btn sm" data-act="addNext" data-cat="${k}" style="flex:1">+ Add ${nextTower(k)}${S.filter === 'all' ? ` (${CATS[k]})` : ''}</button>`).join('')}</div>
+        <p class="small muted" style="margin-top:6px">To remove a team, open it and tap Delete team.</p>`;
+      html += `<details class="card" style="margin-top:14px"><summary>Add a team with another name</summary>
           <div class="grid2" style="margin-top:6px"><label class="field">Name<input type="text" id="newName" placeholder="T9" autocapitalize="characters"></label>
           <label class="field">Category<select id="newCat">${Object.entries(CATS).map(([k, v]) => `<option value="${k}" ${S.filter === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label></div>
           <button class="btn block" data-act="addTeam" style="margin-top:10px">Add team</button></details>`;
@@ -583,7 +605,8 @@
         <div class="card"><h3>Print</h3><p class="small muted" style="margin-bottom:10px">A summary page, then one A4 weigh-in sheet per team with signature lines.</p>
           <button class="btn block" data-act="printAll">Print all sheets</button></div>
         <div class="card"><h3>Reset</h3><p class="small muted" style="margin-bottom:10px">Deletes every team, weight and clearance on this phone. Rules go back to the defaults.</p>
-          <button class="btn danger block" data-act="reset">Reset weigh-in</button></div>`;
+          <div class="stack"><button class="btn danger block" data-act="reset">Reset weigh-in</button>
+          <button class="btn danger block" data-act="clearAllData">Clear all data (fixtures and weigh-in)</button></div></div>`;
     }
 
     // ---------------------------------------------------------------- print
@@ -652,6 +675,12 @@
       view(b) { S.view = b.dataset.view; swapping = null; save(); render(); window.scrollTo(0, 0); },
       filter(b) { S.filter = b.dataset.f; save(); render(); },
       openTeam(b) { S.open = b.dataset.id; S.view = 'team'; swapping = null; save(); render(); window.scrollTo(0, 0); },
+      addNext(b) {
+        const k = b.dataset.cat, name = nextTower(k);
+        S.teams.push(newTeam(name, k, st()));
+        const order = Object.keys(CATS); S.teams.sort((a, c) => order.indexOf(a.cat) - order.indexOf(c.cat));
+        save(); render(); toast(`${name} added to ${CATS[k]}.`);
+      },
       addTeam() {
         const name = $('#newName').value.trim(), cat = $('#newCat').value;
         if (!name) { toast('Enter a team name.', true); return; }
@@ -737,11 +766,20 @@
       loadPaste() { importText($('#pasteIn').value); },
       printTeam() { doPrint(S.open); },
       printAll() { doPrint(null); },
+      clearAllData() {
+        if (!confirm('Clear ALL data on this phone?\n\nThis deletes the fixtures (every category, draw and result) AND the weigh-in (every team, weight and clearance). It cannot be undone — export first if you need a copy.')) return;
+        try { ['onaaravam26-vadamvali-fixtures', 'onaaravam26-vadamvali-weighin'].forEach((k) => localStorage.removeItem(k)); } catch (e) { /* ignore */ }
+        location.reload();
+      },
       reset() {
         if (!confirm('Reset the weigh-in? Every team, weight and clearance on this phone will be deleted.')) return;
         S = newState(); S.view = 'data'; S.fxOffered = false; save(); render(); toast('Weigh-in reset.');
       },
     };
+    function nextTower(k) {
+      const nums = S.teams.filter((t) => t.cat === k).map((t) => (/^T(\d+)$/i.exec(t.name.trim()) || [])[1]).filter(Boolean).map(Number);
+      return 'T' + ((nums.length ? Math.max(...nums) : 0) + 1);
+    }
     const fileName = (ext) => 'vadamvali-weigh-in-' + new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-') + '.' + ext;
     function download(text, ext, type) {
       const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = fileName(ext); a.click();
