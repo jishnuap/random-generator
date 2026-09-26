@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0E3B2C">
+  <title>Vadamvali Weigh-in · Onaaravam ’26</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@400;500;600;700&family=Noto+Serif+Malayalam:wght@500;700&display=swap">
+  <style>
+    :root {
+      --pine: #0E3B2C; --pine-deep: #082A1F; --pine-mid: #14503B; --pine-line: #1E5741;
+      --ivory: #F7F2E2; --ivory-2: #EFE6CF; --card: #FFFDF6; --ink: #17271F; --muted: #47594E;
+      --gold: #C9963F; --gold-l: #E4C173; --clay: #9A4E22; --clay-l: #C4703C; --line: #DCD2B6;
+      --on-dark: #F0EADA; --on-dark-2: #C2D2C6;
+      --ok: #1F6B45; --ok-bg: #E3EFE3; --amber: #B7791F; --amber-bg: #FBEFD5; --over: #B42318; --over-bg: #FBE3DF;
+      --disp: 'Marcellus', 'Palatino Linotype', Palatino, Georgia, serif;
+      --body: 'Karla', 'Helvetica Neue', 'Segoe UI', sans-serif;
+      --mal: 'Noto Serif Malayalam', Georgia, serif;
+      --gutter: 16px; --tap: 48px;
+    }
+    @media (min-width: 640px) { :root { --gutter: 32px; } }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--ivory); color: var(--ink); font: 16px/1.45 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, p { margin: 0; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 var(--gutter); }
+
+    .top { background: var(--pine); color: var(--on-dark); padding: 18px 0 16px; }
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-l); }
+    .top h1 { font: 400 28px/1.15 var(--disp); margin-top: 4px; }
+    .top h1 .mal { font: 700 18px var(--mal); color: var(--on-dark-2); margin-left: 6px; }
+
+    .tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; background: var(--card);
+            border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -4px 16px rgba(8,42,31,.08); }
+    .tabs button { flex: 1; min-height: 60px; border: 0; background: none; display: flex; flex-direction: column; align-items: center;
+                   justify-content: center; gap: 2px; font-size: 12px; font-weight: 700; color: var(--muted); }
+    .tabs svg { width: 22px; height: 22px; }
+    .tabs button[aria-current="page"] { color: var(--pine); }
+    .tabs button[aria-current="page"] svg { color: var(--clay); }
+    main { padding-top: 20px; padding-bottom: 110px; }
+    @media (min-width: 900px) {
+      .tabs { position: sticky; top: 0; bottom: auto; border-top: 0; border-bottom: 1px solid var(--line); box-shadow: none; justify-content: center; }
+      .tabs button { flex: 0 0 auto; flex-direction: row; gap: 8px; min-height: 56px; padding: 0 22px; font-size: 15px; border-bottom: 3px solid transparent; }
+      .tabs button[aria-current="page"] { border-bottom-color: var(--clay); }
+      main { padding-bottom: 48px; }
+    }
+
+    h2.sec { font: 400 24px/1.2 var(--disp); color: var(--pine); margin-bottom: 4px; }
+    .lede { color: var(--muted); margin-bottom: 16px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+    .card h3 { font-size: 17px; margin-bottom: 10px; }
+    .muted { color: var(--muted); } .small { font-size: 14px; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .stack > * + * { margin-top: 10px; }
+    .grid2 { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+    @media (min-width: 700px) { .grid4 { display: grid; gap: 12px; grid-template-columns: repeat(4, 1fr); } }
+
+    .btn { min-height: var(--tap); padding: 0 18px; border-radius: 12px; border: 2px solid var(--pine); background: var(--card); color: var(--pine);
+           font-weight: 700; font-size: 16px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+    .btn.primary { background: var(--pine); color: var(--on-dark); }
+    .btn.gold { background: var(--gold-l); border-color: var(--gold-l); color: var(--pine-deep); }
+    .btn.danger { border-color: var(--clay); color: var(--clay); }
+    .btn.block { width: 100%; }
+    .btn.sm { min-height: 40px; padding: 0 12px; font-size: 14px; border-width: 1.5px; }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .field { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 14px; color: var(--muted); }
+    input[type="text"], input[type="number"], select, textarea {
+      min-height: var(--tap); border: 1.5px solid var(--line); border-radius: 10px; background: #fff; padding: 8px 12px; font-size: 17px; color: var(--ink); width: 100%; }
+    textarea { min-height: 110px; resize: vertical; }
+    input:disabled, select:disabled { background: var(--ivory-2); color: var(--muted); }
+    details > summary { cursor: pointer; font-weight: 700; color: var(--pine); min-height: var(--tap); display: flex; align-items: center; gap: 8px; }
+    details > summary .muted { font-weight: 500; font-size: 14px; }
+
+    .note { border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; font-size: 15px; display: flex; gap: 10px; align-items: flex-start; }
+    .note svg { width: 20px; height: 20px; margin-top: 1px; flex-shrink: 0; }
+    .note.info { background: var(--ivory-2); }
+    .note.warn { background: var(--amber-bg); color: #5E3A06; }
+    .note.bad { background: var(--over-bg); color: #7A1A10; }
+    .note.good { background: var(--ok-bg); color: #13442B; }
+
+    .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; scrollbar-width: none; }
+    .chips button { flex-shrink: 0; min-height: 40px; padding: 0 16px; border-radius: 99px; border: 1.5px solid var(--line); background: var(--card); font-weight: 700; font-size: 15px; color: var(--muted); }
+    .chips button[aria-pressed="true"] { background: var(--pine); border-color: var(--pine); color: var(--on-dark); }
+
+    .status { display: inline-block; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 99px; white-space: nowrap; }
+    .s-not { background: var(--ivory-2); color: var(--muted); }
+    .s-progress { background: var(--amber-bg); color: #7A4B08; }
+    .s-cleared { background: var(--ok-bg); color: var(--ok); }
+    .s-over { background: var(--over-bg); color: var(--over); }
+
+    /* Team list */
+    .tlist { display: grid; gap: 10px; }
+    @media (min-width: 700px) { .tlist { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1000px) { .tlist { grid-template-columns: 1fr 1fr 1fr; } }
+    .tcard { width: 100%; text-align: left; border: 1.5px solid var(--line); border-radius: 14px; background: var(--card); padding: 12px 14px; }
+    .tcard .h { display: flex; align-items: center; gap: 10px; }
+    .tcard .name { font: 400 24px var(--disp); color: var(--pine); }
+    .tcard .cat { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .tcard .h .status { margin-left: auto; }
+    .tcard .meta { font-size: 14px; color: var(--muted); margin-top: 4px; display: flex; justify-content: space-between; gap: 8px; }
+    .tcard .flagdot { color: var(--over); font-weight: 700; }
+    .minibar { height: 6px; border-radius: 3px; background: var(--ivory-2); margin-top: 8px; overflow: hidden; }
+    .minibar i { display: block; height: 100%; background: var(--ok); }
+
+    /* Team view */
+    .back { background: none; border: 0; color: var(--clay); font-weight: 700; min-height: 44px; padding: 0; display: inline-flex; align-items: center; gap: 4px; }
+    .meter { position: sticky; top: 0; z-index: 10; background: var(--card); border: 1.5px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 14px;
+             box-shadow: 0 6px 16px rgba(8,42,31,.08); }
+    @media (min-width: 900px) { .meter { top: 64px; } }
+    .meter.ok { border-color: var(--ok); } .meter.amber { border-color: var(--amber); background: #FFFaEE; } .meter.over { border-color: var(--over); background: #FFF4F2; }
+    .meter .big { font: 700 34px/1.1 var(--body); font-variant-numeric: tabular-nums; }
+    .meter.ok .big { color: var(--ok); } .meter.amber .big { color: var(--amber); } .meter.over .big { color: var(--over); }
+    .meter .line { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-variant-numeric: tabular-nums; }
+    .meter .tot { font-size: 15px; color: var(--muted); }
+    .meter .tot b { color: var(--ink); font-size: 18px; }
+    .bar { position: relative; height: 16px; border-radius: 8px; background: var(--ivory-2); margin: 10px 0 6px; overflow: hidden; }
+    .bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 8px; background: var(--ok); transition: width .2s; }
+    .meter.amber .bar i { background: var(--amber); } .meter.over .bar i { background: var(--over); }
+    .bar .warnline { position: absolute; top: 0; bottom: 0; width: 2px; background: rgba(0,0,0,.25); }
+
+    .mem { display: grid; grid-template-columns: 22px 1fr 96px; gap: 8px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .mem:last-child { border-bottom: 0; }
+    .mem .n { color: var(--muted); font-size: 14px; text-align: right; }
+    .mem .kg { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
+    .mem .ctl { grid-column: 2 / 4; display: flex; gap: 8px; align-items: center; }
+    @media (min-width: 760px) {
+      .mem { grid-template-columns: 22px minmax(0, 1fr) 110px auto; }
+      .mem .ctl { grid-column: auto; min-width: 250px; }
+    }
+    .mem.sub { background: linear-gradient(90deg, transparent, rgba(239,230,207,.5)); }
+    .mem.dup input[data-f="name"] { border-color: var(--over); }
+    .mem.swapping { background: var(--amber-bg); border-radius: 10px; }
+    .role { display: flex; border: 1.5px solid var(--pine); border-radius: 10px; overflow: hidden; }
+    .role button { min-height: 40px; min-width: 64px; padding: 0 10px; border: 0; background: var(--card); color: var(--pine); font-weight: 700; font-size: 14px; }
+    .role button + button { border-left: 1.5px solid var(--pine); }
+    .role button[aria-pressed="true"] { background: var(--pine); color: var(--on-dark); }
+    .role button:disabled { opacity: .5; }
+    .icon-btn { width: 40px; height: 40px; margin-left: auto; flex-shrink: 0; border-radius: 10px; border: 1.5px solid var(--line); background: var(--card); color: var(--clay);
+                display: inline-flex; align-items: center; justify-content: center; }
+    .icon-btn svg { width: 18px; height: 18px; }
+    .sect-h { display: flex; justify-content: space-between; align-items: baseline; margin: 4px 0 2px; }
+    .sect-h h3 { margin: 0; }
+    .clearedbox { background: var(--ok-bg); border-radius: 12px; padding: 14px; color: #13442B; }
+    .clearedbox b { font-size: 18px; }
+
+    /* Summary table */
+    .tbl-wrap { overflow-x: auto; margin: 0 -4px; }
+    table.sum { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 15px; }
+    table.sum th { padding: 0; border-bottom: 1.5px solid var(--line); text-align: left; }
+    table.sum th button { width: 100%; min-height: 44px; border: 0; background: none; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; text-align: inherit; padding: 0 6px; }
+    table.sum th.r, table.sum td.r { text-align: right; }
+    table.sum th[aria-sort] button { color: var(--pine); }
+    table.sum td { padding: 12px 6px; border-bottom: 1px solid var(--line); }
+    table.sum tbody tr { cursor: pointer; }
+    table.sum tbody tr:hover td { background: var(--ivory-2); }
+    table.sum td.t { font-weight: 700; }
+    table.sum td.t small { display: block; font-weight: 600; color: var(--muted); font-size: 12px; }
+    .neg { color: var(--over); font-weight: 700; } .amb { color: var(--amber); font-weight: 700; }
+    @media (max-width: 480px) { table.sum .hide-s { display: none; } }
+    .tally { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+    .tally div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px; text-align: center; }
+    .tally b { display: block; font: 700 24px var(--body); }
+    .tally span { font-size: 12px; color: var(--muted); font-weight: 700; }
+
+    .toast { position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%); z-index: 50; max-width: calc(100% - 32px); background: var(--pine-deep); color: var(--on-dark);
+             padding: 12px 18px; border-radius: 12px; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,.25); opacity: 0; pointer-events: none; transition: opacity .2s; }
+    .toast.show { opacity: 1; }
+    .toast.bad { background: var(--over); color: #fff; }
+    footer.foot { color: var(--muted); font-size: 13px; padding: 12px 0 0; }
+    #print { display: none; }
+
+    @media print {
+      @page { size: A4; margin: 12mm; }
+      body { background: #fff; color: #000; font: 11pt/1.35 var(--body); }
+      body > *:not(#print) { display: none !important; }
+      #print { display: block; }
+      #print * { color: #000 !important; background: transparent !important; box-shadow: none !important; }
+      .psheet + .psheet { break-before: page; }
+      .psheet h1 { font: 400 20pt var(--disp); margin: 0 0 1mm; }
+      .psheet p { margin: 0 0 2mm; }
+      .psheet table { width: 100%; border-collapse: collapse; margin: 3mm 0; }
+      .psheet tr { break-inside: avoid; }
+      .psheet th, .psheet td { border: 0.6pt solid #000; padding: 2.2mm 2mm; text-align: left; font-variant-numeric: tabular-nums; }
+      .psheet td.r, .psheet th.r { text-align: right; }
+      .psheet .tick { width: 12mm; }
+      .psheet tfoot td { font-weight: 700; }
+      .pfields { display: flex; gap: 8mm; margin: 2mm 0; }
+      .pfields div { flex: 1; border-bottom: 0.6pt solid #000; padding-top: 6mm; font-size: 9pt; }
+      .psign { display: flex; gap: 10mm; margin-top: 10mm; break-inside: avoid; }
+      .psign > div { flex: 1; }
+      .psign h2 { font: 700 11pt var(--body); margin: 0 0 2mm; }
+      .psign .ln { border-bottom: 0.6pt solid #000; height: 10mm; margin-bottom: 1mm; }
+      .psign .lb { font-size: 9pt; margin-bottom: 3mm; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top"><div class="wrap">
+    <p class="eyebrow">Onaaravam ’26 · Organiser</p>
+    <h1>Vadamvali weigh-in <span class="mal" lang="ml">വടംവലി</span></h1>
+  </div></header>
+  <nav class="tabs" id="tabs" aria-label="Sections"></nav>
+  <main class="wrap" id="view"></main>
+  <div id="print" aria-hidden="true"></div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+  // ---------------------------------------------------------------------------
+  // Pure logic, DOM-free so it can be tested outside the browser.
+  // ---------------------------------------------------------------------------
+  (function (G) {
+    const CATS = { men: 'Men', women: 'Women', kids: 'Kids' };
+    let seq = 0;
+    const uid = () => Date.now().toString(36) + (++seq).toString(36) + Math.random().toString(36).slice(2, 6);
+
+    function defaults() {
+      return { size: 8, subs: 2, limits: { men: 680, women: 600, kids: 400 }, step: 0.1, amber: 5 };
+    }
+    function newMember(role = 'puller') { return { id: uid(), name: '', kg: null, role }; }
+    function newTeam(name, cat, s = defaults()) {
+      return { id: uid(), name, cat, captain: '',
+               members: Array.from({ length: s.size }, () => newMember('puller')).concat(Array.from({ length: s.subs }, () => newMember('sub'))),
+               cleared: null, swap: null };
+    }
+    function newState() {
+      const s = defaults();
+      const teams = ['men', 'women'].flatMap((c) => Array.from({ length: 8 }, (_, i) => newTeam('T' + (i + 1), c, s)));
+      return { v: 1, settings: s, teams, view: 'teams', open: null, filter: 'all', sort: { k: 'name', dir: 1 }, official: '' };
+    }
+
+    const decimals = (step) => { const s = String(step); return s.includes('.') ? s.split('.')[1].length : 0; };
+    function roundTo(x, step) { const d = decimals(step); return +(Math.round(x / step) * step).toFixed(d); }
+    function fmt(x, step) { return x == null ? '' : x.toFixed(Math.max(1, decimals(step))); }
+    function parseKg(v, step) {
+      const t = String(v ?? '').trim().replace(',', '.').replace(/\s*kg$/i, '');
+      if (!t) return null;
+      if (!/^\d+(\.\d*)?$|^\.\d+$/.test(t)) return NaN;
+      const n = parseFloat(t);
+      return Number.isFinite(n) && n > 0 && n < 400 ? roundTo(n, step) : NaN;
+    }
+
+    const active = (m) => m.name.trim() !== '' || m.kg != null;
+    const key = (n) => n.trim().toLowerCase().replace(/\s+/g, ' ');
+
+    // name -> list of {team, member} over every team, for duplicate checks
+    function nameIndex(teams) {
+      const idx = {};
+      teams.forEach((t) => t.members.forEach((m) => {
+        if (!m.name.trim()) return;
+        (idx[key(m.name)] = idx[key(m.name)] || []).push({ t, m });
+      }));
+      return idx;
+    }
+
+    function calc(team, s, idx) {
+      const limit = s.limits[team.cat] ?? 0;
+      const act = team.members.filter(active);
+      const pullers = act.filter((m) => m.role === 'puller'), subs = act.filter((m) => m.role === 'sub');
+      const total = roundTo(pullers.reduce((a, m) => a + (m.kg || 0), 0), s.step);
+      const margin = roundTo(limit - total, s.step);
+      const missing = pullers.filter((m) => m.kg == null).length;
+      const level = total > limit ? 'over' : margin <= s.amber ? 'amber' : 'ok';
+      const flags = [];   // {lvl: bad|warn|info, msg}
+      if (pullers.length > s.size) flags.push({ lvl: 'bad', msg: `${pullers.length} pullers — only ${s.size} allowed. Make someone a substitute.` });
+      if (subs.length > s.subs) flags.push({ lvl: 'bad', msg: `${subs.length} substitutes — only ${s.subs} allowed.` });
+      if (missing) flags.push({ lvl: 'info', msg: `${missing} puller${missing > 1 ? 's' : ''} not weighed yet.` });
+      if (act.some((m) => m.kg != null && !m.name.trim())) flags.push({ lvl: 'warn', msg: 'A weight has no name next to it.' });
+      const dupIds = new Set();
+      if (idx) {
+        act.forEach((m) => {
+          if (!m.name.trim()) return;
+          const hits = idx[key(m.name)].filter((h) => h.m.id !== m.id);
+          if (!hits.length) return;
+          dupIds.add(m.id);
+          const where = hits.map((h) => h.t.id === team.id ? 'this team' : `${h.t.name} (${CATS[h.t.cat]})`);
+          flags.push({ lvl: 'bad', msg: `${m.name.trim()} is also listed in ${[...new Set(where)].join(', ')}.` });
+        });
+      }
+      const status = team.cleared ? 'cleared' : !act.length ? 'not' : total > limit ? 'over' : 'progress';
+      return { limit, pullers, subs, total, margin, missing, level, flags, dupIds, status };
+    }
+
+    // Blocking reasons for "Mark cleared"
+    function clearProblems(c, s) {
+      const out = [];
+      if (!c.pullers.length) out.push('No pullers entered.');
+      if (c.missing) out.push('Every puller needs a weight.');
+      if (c.total > c.limit) out.push(`Pullers are ${fmt(-c.margin, s.step)} kg over the limit.`);
+      if (c.pullers.length > s.size) out.push(`Too many pullers (${c.pullers.length} of ${s.size}).`);
+      if (c.subs.length > s.subs) out.push(`Too many substitutes (${c.subs.length} of ${s.subs}).`);
+      return out;
+    }
+
+    // ---- CSV ----
+    const CSV_HEAD = ['team', 'category', 'captain', 'member', 'role', 'weight_kg', 'team_total_kg', 'limit_kg', 'margin_kg', 'status', 'cleared_by', 'cleared_at'];
+    const q = (v) => { const t = String(v ?? ''); return /[",\n\r]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
+    function toCSV(st) {
+      const lines = [CSV_HEAD.join(',')];
+      const idx = nameIndex(st.teams);
+      st.teams.forEach((t) => {
+        const c = calc(t, st.settings, idx);
+        const tail = [fmt(c.total, st.settings.step), c.limit, fmt(c.margin, st.settings.step), c.status, t.cleared ? t.cleared.by : '', t.cleared ? t.cleared.at : ''];
+        const ms = t.members.filter(active);
+        if (!ms.length) lines.push([t.name, t.cat, t.captain, '', '', ''].concat(tail).map(q).join(','));
+        ms.forEach((m) => lines.push([t.name, t.cat, t.captain, m.name, m.role, m.kg == null ? '' : fmt(m.kg, st.settings.step)].concat(tail).map(q).join(',')));
+      });
+      return lines.join('\r\n') + '\r\n';
+    }
+    function parseCSV(text) {
+      const rows = []; let row = [], f = '', i = 0, inQ = false;
+      text = text.replace(/^﻿/, '');
+      while (i < text.length) {
+        const ch = text[i];
+        if (inQ) {
+          if (ch === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else inQ = false; } else f += ch;
+        } else if (ch === '"') inQ = true;
+        else if (ch === ',') { row.push(f); f = ''; }
+        else if (ch === '\n' || ch === '\r') { if (ch === '\r' && text[i + 1] === '\n') i++; row.push(f); rows.push(row); row = []; f = ''; }
+        else f += ch;
+        i++;
+      }
+      if (f !== '' || row.length) { row.push(f); rows.push(row); }
+      return rows.filter((r) => r.some((x) => x.trim() !== ''));
+    }
+    // Rebuild teams from CSV. Clearance is kept only if the pullers still match the recorded total.
+    function fromCSV(text, settings) {
+      const rows = parseCSV(text);
+      if (!rows.length) throw new Error('The CSV is empty.');
+      const head = rows[0].map((h) => h.trim().toLowerCase());
+      const col = (n) => head.indexOf(n);
+      if (col('team') < 0 || col('member') < 0 || col('weight_kg') < 0) throw new Error('CSV needs team, member and weight_kg columns.');
+      const teams = [], byKey = {};
+      rows.slice(1).forEach((r) => {
+        const get = (n) => (col(n) >= 0 ? (r[col(n)] || '').trim() : '');
+        const name = get('team'); if (!name) return;
+        let cat = get('category').toLowerCase();
+        if (!CATS[cat]) cat = Object.keys(CATS).find((k) => CATS[k].toLowerCase() === cat) || 'men';
+        const k = cat + '|' + name.toLowerCase();
+        let t = byKey[k];
+        if (!t) {
+          t = byKey[k] = { id: uid(), name, cat, captain: get('captain'), members: [], cleared: null, swap: null };
+          if (get('cleared_by')) t.cleared = { by: get('cleared_by'), at: get('cleared_at'), total: parseFloat(get('team_total_kg')) };
+          teams.push(t);
+        }
+        const mn = get('member'), kg = parseKg(get('weight_kg'), settings.step);
+        if (mn || kg != null) t.members.push({ id: uid(), name: mn, kg: Number.isNaN(kg) ? null : kg, role: get('role') === 'sub' ? 'sub' : 'puller' });
+      });
+      teams.forEach((t) => {
+        if (t.cleared) { const c = calc(t, settings); if (Math.abs(c.total - t.cleared.total) > 1e-6) t.cleared = null; }
+      });
+      if (!teams.length) throw new Error('No teams found in the CSV.');
+      return teams;
+    }
+
+    G.VW = { CATS, uid, defaults, newMember, newTeam, newState, roundTo, fmt, parseKg, active, nameIndex, calc, clearProblems, toCSV, parseCSV, fromCSV };
+  })(globalThis);
+
+  // ---------------------------------------------------------------------------
+  // UI
+  // ---------------------------------------------------------------------------
+  if (typeof document !== 'undefined') (function () {
+    const { CATS, uid, defaults, newMember, newTeam, newState, fmt, parseKg, active, nameIndex, calc, clearProblems, toCSV, fromCSV } = VW;
+    const KEY = 'onaaravam26-vadamvali-weighin';
+    const FIXTURES_KEY = 'onaaravam26-vadamvali-fixtures';
+    const STATUS = { not: 'Not weighed', progress: 'In progress', cleared: 'Cleared', over: 'Over limit' };
+    const VIEWS = [
+      ['teams', 'Teams', '<path d="M16 19v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1M9 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM22 19v-1a4 4 0 0 0-3-3.9M16 4.1a3 3 0 0 1 0 5.8"/>'],
+      ['summary', 'Summary', '<path d="M3 3v18h18M7 15l4-4 3 3 5-6"/>'],
+      ['data', 'Data', '<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>'],
+    ];
+    const ICON = {
+      info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg>',
+      warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l10 18H2L12 3zM12 10v5M12 18h.01"/></svg>',
+      check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>',
+      x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    };
+
+    let S = load();
+    let swapping = null;           // sub id waiting for a puller to swap with
+    let printOnly = null;          // team id when printing one sheet
+
+    function normalise(o) {
+      if (!o || typeof o !== 'object' || !Array.isArray(o.teams)) throw new Error('Not a weigh-in file.');
+      const d = defaults();
+      const settings = Object.assign(d, o.settings || {}, { limits: Object.assign(d.limits, (o.settings || {}).limits || {}) });
+      const teams = o.teams.map((t) => {
+        if (!t || typeof t.name !== 'string' || !Array.isArray(t.members)) throw new Error('A team in the file is not valid.');
+        return { id: t.id || uid(), name: t.name, cat: CATS[t.cat] ? t.cat : 'men', captain: t.captain || '', cleared: t.cleared || null, swap: t.swap || null,
+                 members: t.members.map((m) => ({ id: m.id || uid(), name: String(m.name || ''), kg: typeof m.kg === 'number' ? m.kg : null, role: m.role === 'sub' ? 'sub' : 'puller' })) };
+      });
+      return Object.assign(newState(), { settings, teams, view: VIEWS.some((v) => v[0] === o.view) ? o.view : 'teams', open: o.open || null,
+        filter: o.filter || 'all', sort: o.sort || { k: 'name', dir: 1 }, official: o.official || '' });
+    }
+    function load() { try { const r = localStorage.getItem(KEY); if (r) return normalise(JSON.parse(r)); } catch (e) { /* fresh */ } return newState(); }
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('Could not save on this phone — export a copy.', true); } }
+
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+    const $ = (s) => document.querySelector(s);
+    let toastT;
+    function toast(msg, bad) {
+      const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : '');
+      clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), bad ? 4200 : 2600);
+    }
+    const team = (id) => S.teams.find((t) => t.id === id);
+    const st = () => S.settings;
+    const kg = (x) => fmt(x, st().step);
+    const when = (iso) => { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }); };
+    const catLabel = (c) => CATS[c] + '’s';
+    const underOver = (c) => c.total > c.limit ? `${kg(-c.margin)} kg over` : `${kg(c.margin)} kg under`;
+
+    // Every edit to a cleared team goes through here.
+    function editable(t) {
+      if (!t.cleared) return true;
+      if (!confirm(`${t.name} was cleared by ${t.cleared.by} at ${when(t.cleared.at)}.\n\nEditing resets it to not cleared, and it will need checking again. Continue?`)) return false;
+      t.cleared = null; save(); toast(`${t.name} is no longer cleared.`);
+      return true;
+    }
+
+    // ---------------------------------------------------------------- render
+    function render() {
+      const view = S.view === 'team' && team(S.open) ? 'team' : S.view === 'team' ? 'teams' : S.view;
+      $('#tabs').innerHTML = VIEWS.map(([k, label, path]) => `<button data-act="view" data-view="${k}" ${view === k || (view === 'team' && k === 'teams') ? 'aria-current="page"' : ''}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${path}</svg>${label}</button>`).join('');
+      $('#view').innerHTML = ({ teams: vTeams, team: vTeam, summary: vSummary, data: vData })[view]()
+        + '<footer class="foot">Saved on this phone automatically. Use Data → Export to hand over.</footer>';
+      renderPrint();
+    }
+
+    function filterChips() {
+      return `<div class="chips" role="group" aria-label="Category">${[['all', 'All']].concat(Object.entries(CATS)).map(([k, v]) =>
+        `<button data-act="filter" data-f="${k}" aria-pressed="${S.filter === k}">${v}</button>`).join('')}</div>`;
+    }
+    const shown = () => S.teams.filter((t) => S.filter === 'all' || t.cat === S.filter);
+
+    function vRules() {
+      const s = st(), lk = S.teams.some((t) => t.cleared);
+      return `<details class="card" ${S.teams.every((t) => !t.members.some(active)) ? 'open' : ''}>
+        <summary>Rules <span class="muted">${s.size} pullers + ${s.subs} subs · Men ${s.limits.men} · Women ${s.limits.women} · Kids ${s.limits.kids} kg</span></summary>
+        <div class="grid2" style="margin-top:6px">
+          <label class="field">Pullers per team<input type="number" inputmode="numeric" min="1" max="20" data-set="size" value="${s.size}"></label>
+          <label class="field">Substitutes, up to<input type="number" inputmode="numeric" min="0" max="10" data-set="subs" value="${s.subs}"></label>
+          <label class="field">Men’s limit, kg<input type="number" inputmode="decimal" min="1" data-set="limits.men" value="${s.limits.men}"></label>
+          <label class="field">Women’s limit, kg<input type="number" inputmode="decimal" min="1" data-set="limits.women" value="${s.limits.women}"></label>
+          <label class="field">Kids’ limit, kg<input type="number" inputmode="decimal" min="1" data-set="limits.kids" value="${s.limits.kids}"></label>
+          <label class="field">Round weights to<select data-set="step">${[0.1, 0.5, 1].map((v) => `<option value="${v}" ${s.step === v ? 'selected' : ''}>${v} kg</option>`).join('')}</select></label>
+          <label class="field">Amber within, kg<input type="number" inputmode="decimal" min="0" data-set="amber" value="${s.amber}"></label>
+        </div>
+        ${lk ? '<p class="small muted" style="margin-top:10px">Changing a rule re-checks every team. Cleared teams keep their clearance, so re-check any a change affects.</p>' : ''}
+      </details>`;
+    }
+
+    function vTeams() {
+      const idx = nameIndex(S.teams);
+      const list = shown();
+      const fx = fixturesTeams();
+      let html = `<h2 class="sec">Teams</h2><p class="lede">Tap a team to weigh it in. Only pullers count towards the limit.</p>`;
+      if (fx && !S.fxOffered) html += `<div class="note info">${ICON.info}<div>The fixtures page on this phone has teams: ${Object.entries(fx).map(([k, v]) => `${CATS[k]} ${v.length}`).join(' · ')}.
+          <div class="row" style="margin-top:10px"><button class="btn sm primary" data-act="importFx">Use those teams</button><button class="btn sm" data-act="dismissFx">Not now</button></div></div></div>`;
+      html += vRules() + filterChips();
+      html += `<div class="tlist">${list.map((t) => {
+        const c = calc(t, st(), idx), bad = c.flags.some((f) => f.lvl === 'bad');
+        const pct = Math.min(100, c.limit ? (c.total / c.limit) * 100 : 0);
+        return `<button class="tcard" data-act="openTeam" data-id="${t.id}">
+          <div class="h"><span class="name">${esc(t.name)}</span><span class="cat">${CATS[t.cat]}</span><span class="status s-${c.status}">${STATUS[c.status]}</span></div>
+          <div class="meta"><span>${c.pullers.length}/${st().size} pullers${c.subs.length ? ` · ${c.subs.length} sub${c.subs.length > 1 ? 's' : ''}` : ''}${bad ? ' · <span class="flagdot">⚑ check</span>' : ''}</span>
+            <span>${c.total ? `${kg(c.total)} / ${c.limit} kg` : `limit ${c.limit} kg`}</span></div>
+          <div class="minibar"><i style="width:${pct}%;background:var(--${c.level === 'ok' ? 'ok' : c.level})"></i></div>
+        </button>`;
+      }).join('')}</div>`;
+      if (!list.length) html += '<p class="muted">No teams in this category.</p>';
+      html += `<details class="card" style="margin-top:14px"><summary>Add a team</summary>
+          <div class="grid2" style="margin-top:6px"><label class="field">Name<input type="text" id="newName" placeholder="T9" autocapitalize="characters"></label>
+          <label class="field">Category<select id="newCat">${Object.entries(CATS).map(([k, v]) => `<option value="${k}" ${S.filter === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label></div>
+          <button class="btn block" data-act="addTeam" style="margin-top:10px">Add team</button></details>`;
+      return html;
+    }
+
+    function vTeam() {
+      const t = team(S.open), s = st(), idx = nameIndex(S.teams), c = calc(t, s, idx), dis = t.cleared ? 'disabled' : '';
+      const pct = c.limit ? Math.min(100, (c.total / c.limit) * 100) : 0, amberAt = c.limit ? Math.max(0, (c.limit - s.amber) / c.limit * 100) : 0;
+      const sw = swapping && t.members.find((m) => m.id === swapping);
+      let html = `<button class="back" data-act="view" data-view="teams">‹ All teams</button>
+        <div class="row" style="justify-content:space-between;margin:2px 0 12px"><h2 class="sec" style="margin:0">${esc(t.name)} · ${CATS[t.cat]}</h2><span class="status s-${c.status}">${STATUS[c.status]}</span></div>
+        <div class="meter ${c.level}" aria-live="polite">
+          <div class="line"><span class="big">${underOver(c)}</span></div>
+          <div class="bar" role="meter" aria-valuemin="0" aria-valuemax="${c.limit}" aria-valuenow="${c.total}" aria-label="Pullers' total against limit">
+            <i style="width:${pct}%"></i><span class="warnline" style="left:${amberAt}%"></span></div>
+          <div class="line"><span class="tot"><b>${kg(c.total)}</b> of ${c.limit} kg</span><span class="tot">${c.pullers.length}/${s.size} pullers${c.missing ? ` · ${c.missing} to weigh` : ''}</span></div>
+        </div>`;
+      if (t.swap) {
+        const over = t.swap.after > c.limit;
+        html += `<div class="note ${over ? 'bad' : 'good'}">${over ? ICON.warn : ICON.check}<div><b>${esc(t.swap.inName)}</b> ${t.swap.outName ? `in for <b>${esc(t.swap.outName)}</b>` : 'moved up to pullers'}: ${kg(t.swap.before)} → ${kg(t.swap.after)} kg.
+          ${over ? `<b>That takes ${esc(t.name)} ${kg(t.swap.after - c.limit)} kg over the limit.</b>` : `Still ${kg(c.limit - t.swap.after)} kg under.`}
+          <div style="margin-top:8px"><button class="btn sm" data-act="dismissSwap">OK</button></div></div></div>`;
+      }
+      c.flags.filter((f) => f.lvl !== 'info').forEach((f) => { html += `<div class="note ${f.lvl}">${ICON.warn}<span>${esc(f.msg)}</span></div>`; });
+      if (t.cleared) {
+        html += `<div class="clearedbox" style="margin-bottom:14px"><div class="row">${ICON.check}<b>Cleared by ${esc(t.cleared.by)}</b></div>
+          <div class="small" style="margin-top:4px">${when(t.cleared.at)} · ${kg(t.cleared.total)} kg</div>
+          <button class="btn block" data-act="unlock" style="margin-top:12px">Edit team (resets clearance)</button></div>`;
+      }
+      if (sw) html += `<div class="note warn">${ICON.info}<div>Swapping in <b>${esc(sw.name || 'substitute')}</b>${sw.kg != null ? ` (${kg(sw.kg)} kg)` : ''}. Tap <b>Out</b> on the puller who comes off.
+          <div style="margin-top:8px"><button class="btn sm" data-act="cancelSwap">Cancel swap</button></div></div></div>`;
+
+      html += `<div class="card"><label class="field">Captain<input type="text" data-tf="captain" value="${esc(t.captain)}" placeholder="Captain’s name" autocomplete="off" ${dis}></label></div>`;
+      const row = (m, i) => {
+        const isP = m.role === 'puller';
+        return `<div class="mem ${isP ? '' : 'sub'} ${c.dupIds.has(m.id) ? 'dup' : ''} ${swapping === m.id ? 'swapping' : ''}">
+          <span class="n">${i + 1}</span>
+          <input type="text" data-f="name" data-m="${m.id}" value="${esc(m.name)}" placeholder="Name" aria-label="Name ${i + 1}" autocomplete="off" ${dis}>
+          <input type="text" data-f="kg" data-m="${m.id}" value="${m.kg == null ? '' : kg(m.kg)}" placeholder="kg" inputmode="decimal" enterkeyhint="next" class="kg" aria-label="Weight in kg ${i + 1}" ${dis}>
+          <div class="ctl">
+            <div class="role" role="group" aria-label="Role"><button data-act="role" data-m="${m.id}" data-v="puller" aria-pressed="${isP}" ${dis}>Puller</button><button data-act="role" data-m="${m.id}" data-v="sub" aria-pressed="${!isP}" ${dis}>Sub</button></div>
+            ${!isP && active(m) && !swapping ? `<button class="btn sm gold" data-act="swapIn" data-m="${m.id}">Swap in</button>` : ''}
+            ${isP && sw && active(m) ? `<button class="btn sm gold" data-act="swapOut" data-m="${m.id}">Out</button>` : ''}
+            <button class="icon-btn" data-act="rmMember" data-m="${m.id}" aria-label="Remove row ${i + 1}" ${dis}>${ICON.x}</button>
+          </div></div>`;
+      };
+      const P = t.members.filter((m) => m.role === 'puller'), Sb = t.members.filter((m) => m.role === 'sub');
+      html += `<div class="card"><div class="sect-h"><h3>Pullers</h3><span class="small muted">counted in the total</span></div>${P.map(row).join('') || '<p class="muted small">None.</p>'}
+        <button class="btn block sm" data-act="addMember" data-v="puller" style="margin-top:10px" ${dis}>+ Add puller</button></div>`;
+      html += `<div class="card"><div class="sect-h"><h3>Substitutes</h3><span class="small muted">up to ${s.subs}, not counted</span></div>${Sb.map((m, i) => row(m, P.length + i)).join('') || '<p class="muted small">None.</p>'}
+        <button class="btn block sm" data-act="addMember" data-v="sub" style="margin-top:10px" ${dis}>+ Add substitute</button></div>`;
+
+      if (!t.cleared) {
+        const probs = clearProblems(c, s);
+        html += `<div class="card"><h3>Clear this team</h3>
+          <label class="field">Official checking<input type="text" id="official" value="${esc(S.official)}" placeholder="Your name" autocomplete="off"></label>
+          ${probs.length ? `<p class="small" style="color:var(--over);margin-top:10px;font-weight:600">${probs.map(esc).join(' ')}</p>` : ''}
+          <button class="btn primary block" data-act="clear" style="margin-top:12px" ${probs.length ? 'disabled' : ''}>${ICON.check.replace('<svg', '<svg width="20" height="20"')} Mark cleared</button></div>`;
+      }
+      html += `<div class="row" style="margin-top:4px"><button class="btn" data-act="printTeam" style="flex:1">Print weigh-in sheet</button>
+        <button class="btn danger" data-act="rmTeam" style="flex:1">Delete team</button></div>`;
+      return html;
+    }
+
+    const SORTS = {
+      name: (a, b) => a.t.name.localeCompare(b.t.name, undefined, { numeric: true }) || a.t.cat.localeCompare(b.t.cat),
+      cat: (a, b) => a.t.cat.localeCompare(b.t.cat) || SORTS.name(a, b),
+      pullers: (a, b) => a.c.pullers.length - b.c.pullers.length,
+      total: (a, b) => a.c.total - b.c.total,
+      margin: (a, b) => a.c.margin - b.c.margin,
+      status: (a, b) => ['over', 'progress', 'not', 'cleared'].indexOf(a.c.status) - ['over', 'progress', 'not', 'cleared'].indexOf(b.c.status),
+    };
+    function vSummary() {
+      const idx = nameIndex(S.teams), s = st();
+      const rows = shown().map((t) => ({ t, c: calc(t, s, idx) }));
+      const f = SORTS[S.sort.k] || SORTS.name;
+      rows.sort((a, b) => (f(a, b) || SORTS.name(a, b)) * (f(a, b) ? S.sort.dir : 1));
+      const n = (k) => rows.filter((r) => r.c.status === k).length;
+      const th = (k, label, cls = '') => `<th class="${cls}" ${S.sort.k === k ? `aria-sort="${S.sort.dir > 0 ? 'ascending' : 'descending'}"` : ''}>
+        <button data-act="sort" data-k="${k}">${label}${S.sort.k === k ? (S.sort.dir > 0 ? ' ▲' : ' ▼') : ''}</button></th>`;
+      return `<h2 class="sec">Summary</h2><p class="lede">Tap a column to sort, a row to open the team.</p>${filterChips()}
+        <div class="tally"><div><b>${n('cleared')}</b><span>Cleared</span></div><div><b>${n('progress')}</b><span>In progress</span></div>
+          <div><b style="color:var(--over)">${n('over')}</b><span>Over</span></div><div><b>${n('not')}</b><span>Not weighed</span></div></div>
+        <div class="card" style="padding:8px 10px"><div class="tbl-wrap"><table class="sum"><thead><tr>
+          ${th('name', 'Team')}${th('pullers', 'Pull.', 'r')}${th('total', 'Total', 'r')}${th('margin', 'Margin', 'r')}${th('status', 'Status')}</tr></thead><tbody>
+          ${rows.map(({ t, c }) => `<tr data-act="openTeam" data-id="${t.id}"><td class="t">${esc(t.name)}<small>${CATS[t.cat]}</small></td>
+            <td class="r">${c.pullers.length}/${s.size}</td><td class="r">${c.total ? kg(c.total) : '–'}</td>
+            <td class="r ${c.total > c.limit ? 'neg' : c.level === 'amber' && c.total ? 'amb' : ''}">${c.total ? (c.margin < 0 ? '−' + kg(-c.margin) : '+' + kg(c.margin)) : '–'}</td>
+            <td><span class="status s-${c.status}">${STATUS[c.status]}</span>${c.flags.some((x) => x.lvl === 'bad') ? ' <span class="flagdot" title="Needs checking">⚑</span>' : ''}</td></tr>`).join('')}
+        </tbody></table></div></div>
+        <p class="small muted">Margin is how far under (+) or over (−) the limit the pullers are. ⚑ marks a team with too many pullers or a duplicate name.</p>
+        <button class="btn block" data-act="printAll" style="margin-top:12px">Print all weigh-in sheets</button>`;
+    }
+
+    function vData() {
+      return `<h2 class="sec">Data</h2><p class="lede">Hand over between phones, or keep a copy.</p>
+        <div class="card"><h3>Export</h3><div class="stack">
+          ${navigator.canShare ? '<button class="btn primary block" data-act="share">Share JSON file…</button>' : ''}
+          <button class="btn block ${navigator.canShare ? '' : 'primary'}" data-act="exportJson">Download JSON (full)</button>
+          <button class="btn block" data-act="exportCsv">Download CSV (spreadsheet)</button></div></div>
+        <div class="card"><h3>Import</h3><p class="small muted" style="margin-bottom:10px">JSON replaces everything. CSV replaces the teams and keeps the rules.</p>
+          <label class="btn block" style="cursor:pointer">Import JSON or CSV file<input type="file" accept=".json,.csv,application/json,text/csv" data-ch="importFile" hidden></label>
+          <details style="margin-top:8px"><summary>Paste JSON or CSV instead</summary><textarea id="pasteIn"></textarea>
+            <button class="btn block" data-act="loadPaste" style="margin-top:10px">Load</button></details></div>
+        <div class="card"><h3>Print</h3><p class="small muted" style="margin-bottom:10px">A summary page, then one A4 weigh-in sheet per team with signature lines.</p>
+          <button class="btn block" data-act="printAll">Print all sheets</button></div>
+        <div class="card"><h3>Reset</h3><p class="small muted" style="margin-bottom:10px">Deletes every team, weight and clearance on this phone. Rules go back to the defaults.</p>
+          <button class="btn danger block" data-act="reset">Reset weigh-in</button></div>`;
+    }
+
+    // ---------------------------------------------------------------- print
+    function renderPrint() {
+      const s = st(), idx = nameIndex(S.teams);
+      const teams = printOnly ? S.teams.filter((t) => t.id === printOnly) : S.teams;
+      const sheet = (t) => {
+        const c = calc(t, s, idx), act = t.members.filter(active);
+        const P = act.filter((m) => m.role === 'puller'), Sb = act.filter((m) => m.role === 'sub');
+        const blank = (n, role) => Array.from({ length: Math.max(0, n) }, () => `<tr><td></td><td></td><td>${role}</td><td class="r"></td></tr>`).join('');
+        let i = 0;
+        const r = (m) => `<tr><td>${++i}</td><td>${esc(m.name)}</td><td>${m.role === 'sub' ? 'Substitute' : 'Puller'}</td><td class="r">${m.kg == null ? '' : kg(m.kg)}</td></tr>`;
+        return `<section class="psheet"><h1>Vadamvali weigh-in — ${esc(t.name)}</h1>
+          <p>Onaaravam ’26 · ${catLabel(t.cat)} category · limit ${c.limit} kg for up to ${s.size} pullers, plus up to ${s.subs} substitutes (not counted)</p>
+          <div class="pfields"><div>Captain: ${esc(t.captain)}</div><div>Date and time:</div></div>
+          <table><thead><tr><th style="width:10mm">#</th><th>Name</th><th style="width:30mm">Role</th><th class="r" style="width:32mm">Weight (kg)</th></tr></thead>
+            <tbody>${P.map(r).join('')}${blank(s.size - P.length, 'Puller')}${Sb.map(r).join('')}${blank(s.subs - Sb.length, 'Substitute')}</tbody>
+            <tfoot><tr><td colspan="3">Pullers’ total</td><td class="r">${c.total ? kg(c.total) : ''}</td></tr>
+              <tr><td colspan="3">Limit</td><td class="r">${c.limit}</td></tr>
+              <tr><td colspan="3">Under (+) / over (−)</td><td class="r">${c.total ? (c.margin < 0 ? '−' + kg(-c.margin) : '+' + kg(c.margin)) : ''}</td></tr></tfoot></table>
+          <p><b>Status:</b> ${t.cleared ? `Cleared by ${esc(t.cleared.by)}, ${when(t.cleared.at)}, at ${kg(t.cleared.total)} kg` : STATUS[c.status] + ' — not yet cleared'}</p>
+          <div class="psign">
+            <div><h2>Team captain</h2><div class="ln"></div><div class="lb">Signature</div><div class="ln"></div><div class="lb">Name</div></div>
+            <div><h2>Official</h2><div class="ln"></div><div class="lb">Signature</div><div class="ln"></div><div class="lb">Name</div></div>
+          </div></section>`;
+      };
+      let summary = '';
+      if (!printOnly) {
+        const rows = S.teams.map((t) => ({ t, c: calc(t, s, idx) })).sort((a, b) => a.t.cat.localeCompare(b.t.cat) || a.t.name.localeCompare(b.t.name, undefined, { numeric: true }));
+        summary = `<section class="psheet"><h1>Vadamvali weigh-in — summary</h1>
+          <p>Onaaravam ’26 · limits: Men ${s.limits.men} kg · Women ${s.limits.women} kg · Kids ${s.limits.kids} kg · ${s.size} pullers + ${s.subs} substitutes · printed ${when(new Date().toISOString())}</p>
+          <table><thead><tr><th>Team</th><th>Category</th><th class="r">Pullers</th><th class="r">Total kg</th><th class="r">Margin kg</th><th>Status</th><th>Cleared by</th></tr></thead><tbody>
+          ${rows.map(({ t, c }) => `<tr><td>${esc(t.name)}</td><td>${CATS[t.cat]}</td><td class="r">${c.pullers.length}</td><td class="r">${c.total ? kg(c.total) : ''}</td>
+            <td class="r">${c.total ? (c.margin < 0 ? '−' + kg(-c.margin) : '+' + kg(c.margin)) : ''}</td><td>${STATUS[c.status]}</td><td>${t.cleared ? esc(t.cleared.by) + ', ' + when(t.cleared.at) : ''}</td></tr>`).join('')}
+          </tbody></table></section>`;
+      }
+      $('#print').innerHTML = summary + teams.map(sheet).join('');
+    }
+    function doPrint(only) { printOnly = only; renderPrint(); window.print(); printOnly = null; renderPrint(); }
+
+    // ---------------------------------------------------------------- fixtures import
+    function fixturesTeams() {
+      try {
+        const f = JSON.parse(localStorage.getItem(FIXTURES_KEY) || 'null');
+        if (!f || !f.cats) return null;
+        const out = {};
+        Object.keys(CATS).forEach((k) => {
+          const c = f.cats[k];
+          if (!c) return;
+          const list = (c.groups ? c.groups.flat() : c.teams || []).map((t) => String(t).trim()).filter(Boolean)
+            .sort((x, y) => x.localeCompare(y, undefined, { numeric: true }));
+          if (list.length && (c.groups || k !== 'kids')) out[k] = list;
+        });
+        const same = Object.entries(out).every(([k, l]) => l.join('|') === S.teams.filter((t) => t.cat === k).map((t) => t.name).join('|'));
+        return Object.keys(out).length && !same ? out : null;
+      } catch (e) { return null; }
+    }
+
+    // ---------------------------------------------------------------- actions
+    function swapWarn(t, before, inName, outName) {
+      const c = calc(t, st());
+      t.swap = { inName, outName, before, after: c.total };
+      if (c.total > c.limit) toast(`${t.name} is now ${kg(c.total - c.limit)} kg over the limit.`, true);
+    }
+    const act = {
+      view(b) { S.view = b.dataset.view; swapping = null; save(); render(); window.scrollTo(0, 0); },
+      filter(b) { S.filter = b.dataset.f; save(); render(); },
+      openTeam(b) { S.open = b.dataset.id; S.view = 'team'; swapping = null; save(); render(); window.scrollTo(0, 0); },
+      addTeam() {
+        const name = $('#newName').value.trim(), cat = $('#newCat').value;
+        if (!name) { toast('Enter a team name.', true); return; }
+        if (S.teams.some((t) => t.cat === cat && t.name.toLowerCase() === name.toLowerCase())) { toast(`${CATS[cat]} already has ${name}.`, true); return; }
+        const t = newTeam(name, cat, st()); S.teams.push(t); save(); act.openTeam({ dataset: { id: t.id } });
+      },
+      rmTeam() {
+        const t = team(S.open);
+        if (!confirm(`Delete ${t.name} (${CATS[t.cat]}) and all its weights?`)) return;
+        S.teams = S.teams.filter((x) => x !== t); S.view = 'teams'; save(); render();
+      },
+      unlock() { editable(team(S.open)); render(); },
+      role(b) {
+        const t = team(S.open), m = t.members.find((x) => x.id === b.dataset.m);
+        if (m.role === b.dataset.v || !editable(t)) return;
+        const before = calc(t, st()).total;
+        m.role = b.dataset.v;
+        if (m.role === 'puller' && active(m)) swapWarn(t, before, m.name || 'Substitute', null);
+        else t.swap = null;
+        save(); render();
+      },
+      swapIn(b) { swapping = b.dataset.m; render(); },
+      cancelSwap() { swapping = null; render(); },
+      swapOut(b) {
+        const t = team(S.open);
+        if (!editable(t)) { swapping = null; render(); return; }
+        const inM = t.members.find((x) => x.id === swapping), outM = t.members.find((x) => x.id === b.dataset.m);
+        const before = calc(t, st()).total;
+        inM.role = 'puller'; outM.role = 'sub';
+        // keep list order: the incoming sub takes the outgoing puller's slot
+        const a = t.members.indexOf(inM), o = t.members.indexOf(outM);
+        [t.members[a], t.members[o]] = [t.members[o], t.members[a]];
+        swapWarn(t, before, inM.name || 'Substitute', outM.name || 'Puller');
+        swapping = null; save(); render();
+      },
+      dismissSwap() { team(S.open).swap = null; save(); render(); },
+      addMember(b) {
+        const t = team(S.open); if (!editable(t)) return render();
+        const m = newMember(b.dataset.v);
+        const lastOfRole = t.members.map((x) => x.role).lastIndexOf(b.dataset.v);
+        t.members.splice(b.dataset.v === 'puller' && lastOfRole >= 0 ? lastOfRole + 1 : t.members.length, 0, m);
+        save(); render(); const el = document.querySelector(`[data-f="name"][data-m="${m.id}"]`); if (el) el.focus();
+      },
+      rmMember(b) {
+        const t = team(S.open), m = t.members.find((x) => x.id === b.dataset.m);
+        if (active(m) && !confirm(`Remove ${m.name || 'this row'}${m.kg != null ? ` (${kg(m.kg)} kg)` : ''}?`)) return;
+        if (!editable(t)) return render();
+        t.members = t.members.filter((x) => x !== m); t.swap = null; save(); render();
+      },
+      clear() {
+        const t = team(S.open), c = calc(t, st(), nameIndex(S.teams));
+        const by = ($('#official').value || '').trim();
+        if (!by) { toast('Enter the official’s name first.', true); $('#official').focus(); return; }
+        if (clearProblems(c, st()).length) return;
+        if (c.flags.some((f) => f.lvl !== 'info') && !confirm('There are warnings on this team:\n\n' + c.flags.filter((f) => f.lvl !== 'info').map((f) => '• ' + f.msg).join('\n') + '\n\nClear it anyway?')) return;
+        S.official = by;
+        t.cleared = { by, at: new Date().toISOString(), total: c.total }; t.swap = null;
+        save(); render(); toast(`${t.name} cleared at ${kg(c.total)} kg.`);
+      },
+      sort(b) { const k = b.dataset.k; S.sort = { k, dir: S.sort.k === k ? -S.sort.dir : 1 }; save(); render(); },
+      importFx() {
+        const fx = fixturesTeams();
+        if (!fx) return;
+        const cats = Object.keys(fx);
+        const weighed = S.teams.filter((t) => cats.includes(t.cat) && t.members.some(active));
+        if (weighed.length && !confirm(`Replace the ${cats.map((k) => CATS[k]).join(' and ')} team lists?\n\nTeams with the same name keep their weights; ${weighed.filter((t) => !fx[t.cat].includes(t.name)).length} weighed team(s) not on the fixtures page will be removed.`)) return;
+        cats.forEach((k) => {
+          const keep = S.teams.filter((t) => t.cat === k);
+          const next = fx[k].map((n) => keep.find((t) => t.name === n) || newTeam(n, k, st()));
+          S.teams = S.teams.filter((t) => t.cat !== k).concat(next);
+        });
+        const order = Object.keys(CATS); S.teams.sort((a, b) => order.indexOf(a.cat) - order.indexOf(b.cat));
+        S.fxOffered = true; save(); render(); toast('Teams imported from the fixtures page.');
+      },
+      dismissFx() { S.fxOffered = true; save(); render(); },
+      exportJson() { download(JSON.stringify(S, null, 2), 'json', 'application/json'); },
+      exportCsv() { download('﻿' + toCSV(S), 'csv', 'text/csv'); },
+      async share() {
+        const file = new File([JSON.stringify(S)], fileName('json'), { type: 'application/json' });
+        try { if (navigator.canShare({ files: [file] })) await navigator.share({ files: [file], title: 'Vadamvali weigh-in' }); else act.exportJson(); }
+        catch (e) { if (e.name !== 'AbortError') act.exportJson(); }
+      },
+      loadPaste() { importText($('#pasteIn').value); },
+      printTeam() { doPrint(S.open); },
+      printAll() { doPrint(null); },
+      reset() {
+        if (!confirm('Reset the weigh-in? Every team, weight and clearance on this phone will be deleted.')) return;
+        S = newState(); S.view = 'data'; S.fxOffered = false; save(); render(); toast('Weigh-in reset.');
+      },
+    };
+    const fileName = (ext) => 'vadamvali-weigh-in-' + new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-') + '.' + ext;
+    function download(text, ext, type) {
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = fileName(ext); a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    }
+    function importText(text) {
+      text = (text || '').trim();
+      if (!text) { toast('Nothing to import.', true); return; }
+      try {
+        if (text[0] === '{') {
+          const next = normalise(JSON.parse(text));
+          if (!confirm('Replace everything on this phone with the imported file?')) return;
+          S = next;
+        } else {
+          const teams = fromCSV(text, st());
+          if (!confirm(`Replace all teams with the ${teams.length} team(s) in the CSV? The rules stay as they are.`)) return;
+          S.teams = teams; S.view = 'summary';
+        }
+        swapping = null; save(); render(); toast('Imported.');
+      } catch (e) { toast('Import failed: ' + (e.message || 'not valid'), true); }
+    }
+
+    // ---------------------------------------------------------------- events
+    document.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-act]');
+      if (!b || b.disabled) return;
+      act[b.dataset.act](b);
+    });
+    document.addEventListener('keydown', (e) => {
+      const tr = e.target.closest && e.target.closest('tr[data-act]');
+      if (tr && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); act.openTeam(tr); }
+    });
+    // Typing updates state and the meter without re-rendering the inputs (keeps focus and the keyboard up).
+    document.addEventListener('input', (e) => {
+      const el = e.target, t = S.open && team(S.open);
+      if (el.dataset.f && t && !t.cleared) {
+        const m = t.members.find((x) => x.id === el.dataset.m);
+        if (el.dataset.f === 'name') m.name = el.value;
+        else { const v = parseKg(el.value, st().step); m.kg = Number.isNaN(v) ? m.kg : v; }
+        t.swap = null; save(); refreshMeter();
+      } else if (el.dataset.tf && t && !t.cleared) { t[el.dataset.tf] = el.value; save(); }
+      else if (el.id === 'official') { S.official = el.value; save(); }
+    });
+    document.addEventListener('change', (e) => {
+      const el = e.target;
+      if (el.dataset.f === 'kg') {
+        const v = parseKg(el.value, st().step);
+        if (Number.isNaN(v)) { toast('Weight should be a number of kilograms, like 72.4.', true); }
+        const t = team(S.open), m = t.members.find((x) => x.id === el.dataset.m);
+        if (Number.isNaN(v)) m.kg = null;
+        el.value = m.kg == null ? '' : kg(m.kg);
+        save(); refreshMeter();
+      } else if (el.dataset.f === 'name') refreshMeter();
+      else if (el.dataset.set) {
+        const s = st(), path = el.dataset.set.split('.'), v = parseFloat(el.value);
+        if (!Number.isFinite(v) || v < 0) { render(); return; }
+        const val = path[0] === 'size' || path[0] === 'subs' ? Math.round(v) : v;
+        if (path.length === 2) s[path[0]][path[1]] = val; else s[path[0]] = val;
+        save(); render();
+      } else if (el.dataset.ch === 'importFile' && el.files[0]) { el.files[0].text().then(importText); el.value = ''; }
+    });
+    // Tapping into a cleared team's field goes through the confirmation.
+    document.addEventListener('focusin', (e) => {
+      const el = e.target;
+      if (el.matches && el.matches('.mem input:disabled')) el.blur();
+    });
+    function refreshMeter() {
+      if (S.view !== 'team') return;
+      const view = $('#view'), y = window.scrollY, active = document.activeElement, sel = active && active.selectionStart;
+      const id = active && active.dataset && active.dataset.m, f = active && active.dataset && active.dataset.f;
+      const fresh = document.createElement('div'); fresh.innerHTML = vTeam();
+      const oldM = view.querySelector('.meter'), newM = fresh.querySelector('.meter');
+      if (oldM && newM) oldM.replaceWith(newM);
+      // refresh flag notes without touching inputs
+      view.querySelectorAll(':scope > .note').forEach((n) => n.remove());
+      const anchor = view.querySelector('.meter');
+      [...fresh.querySelectorAll(':scope > .note')].reverse().forEach((n) => anchor.after(n));
+      const st2 = view.querySelector('.row .status'), nst = fresh.querySelector('.row .status'); if (st2 && nst) st2.replaceWith(nst);
+      const oldClear = [...view.querySelectorAll('.card')].find((c) => c.querySelector('#official')), newClear = [...fresh.querySelectorAll('.card')].find((c) => c.querySelector('#official'));
+      if (oldClear && newClear) { const btn = oldClear.querySelector('[data-act="clear"]'), nb = newClear.querySelector('[data-act="clear"]'); btn.disabled = nb.disabled;
+        const op = oldClear.querySelector('p'), np = newClear.querySelector('p'); if (op) op.remove(); if (np) oldClear.querySelector('.field').after(np); }
+      view.querySelectorAll('.mem').forEach((row) => {
+        const inp = row.querySelector('[data-f="name"]'), nr = inp && fresh.querySelector(`.mem [data-f="name"][data-m="${inp.dataset.m}"]`);
+        if (!nr) return;
+        row.classList.toggle('dup', nr.closest('.mem').classList.contains('dup'));
+        row.querySelector('.ctl').replaceWith(nr.closest('.mem').querySelector('.ctl'));
+      });
+      window.scrollTo(0, y);
+      if (id && f) { const el = view.querySelector(`[data-f="${f}"][data-m="${id}"]`); if (el && el !== document.activeElement) { el.focus(); try { el.setSelectionRange(sel, sel); } catch (e) {} } }
+    }
+    window.addEventListener('beforeprint', renderPrint);
+    window.addEventListener('storage', (e) => { if (e.key === KEY) { S = load(); render(); } });
+    render();
+  })();
+  </script>
+</body>
+</html>
