@@ -867,8 +867,11 @@
       let status = s.winner ? `<b>${esc(s.winner)}</b> win ${Math.max(s.l, s.rt)}–${Math.min(s.l, s.rt)}${s.wo ? ' by walkover / disqualification' : ''}.`
         : s.started ? `Pull ${s.pulls.length + 1} next. First to ${k} wins.` : `Best of ${m.bo}: first to ${k} pulls wins.`;
       let body = '';
-      if (!why && !s.winner) {
-        body += `<p class="small muted" style="margin-bottom:8px">Who won pull ${s.pulls.length + 1}?</p>
+      const extra = !why && s.winner && !s.wo && s.pulls.length < m.bo;
+      if (!why && (!s.winner || extra)) {
+        body += `<p class="small muted" style="margin-bottom:8px">${extra
+          ? `Pull ${s.pulls.length + 1} is optional — ${esc(s.winner)} have already won. Record it if it was pulled; it counts towards pulls won and lost.`
+          : `Who won pull ${s.pulls.length + 1}?`}</p>
           <div class="pick"><button class="btn primary" data-act="pull" data-team="${esc(m.l)}">${esc(m.l)}</button>
           <button class="btn primary" data-act="pull" data-team="${esc(m.rt)}">${esc(m.rt)}</button></div>`;
       }
@@ -937,6 +940,7 @@
         const c = cat(), r = c.results[dlgId];
         const m = allMatches(c).find((x) => x.id === dlgId);
         const first = !locked(c) && !m.ko;
+        if (r && r.pulls.length >= m.bo) return;
         setPulls((r ? r.pulls : []).concat(b.dataset.team));
         if (first) toast('First result in — fixtures are now locked.');
       },
